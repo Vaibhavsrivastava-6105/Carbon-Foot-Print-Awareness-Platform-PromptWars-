@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 import os
 from api.api import routes
 
-app = FastAPI(title="EcoGuide AI API", description="Backend for the Carbon Footprint Awareness Platform")
+app = FastAPI(title="Carbon-Footprint-PromptWars API", description="Backend for the Carbon Footprint Awareness Platform")
 
 # Allow frontend to connect during dev
 app.add_middleware(

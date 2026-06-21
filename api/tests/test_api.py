@@ -6,7 +6,7 @@ client = TestClient(app)
 def test_root():
     response = client.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to EcoGuide AI API"}
+    assert response.json() == {"message": "Welcome to Carbon-Footprint-PromptWars API"}
 
 def test_calculate_endpoint():
     payload = {

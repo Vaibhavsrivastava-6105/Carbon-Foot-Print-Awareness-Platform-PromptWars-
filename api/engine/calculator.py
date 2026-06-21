@@ -26,6 +26,15 @@ EMISSION_FACTORS = {
 }
 
 def calculate_transportation(request: FootprintRequest) -> float:
+    """
+    Calculate monthly CO2 emissions from transportation.
+    
+    Args:
+        request (FootprintRequest): The user's inputted footprint data.
+        
+    Returns:
+        float: Total transportation emissions in kg CO2 per month.
+    """
     days_in_month = 30
     monthly_km = request.commute_distance_km * days_in_month
     vehicle_factor = EMISSION_FACTORS["transport"].get(request.vehicle_type, 0.192)
@@ -42,6 +51,15 @@ def calculate_transportation(request: FootprintRequest) -> float:
     return commute_emissions + transit_emissions + (flight_emissions_annual / 12)
 
 def calculate_home_energy(request: FootprintRequest) -> float:
+    """
+    Calculate monthly CO2 emissions from home energy usage.
+    
+    Args:
+        request (FootprintRequest): The user's inputted footprint data.
+        
+    Returns:
+        float: Total home energy emissions in kg CO2 per month.
+    """
     non_renewable_percentage = (100 - request.renewable_energy_percentage) / 100
     electricity_emissions = request.monthly_electricity_kwh * EMISSION_FACTORS["electricity"] * non_renewable_percentage
     
@@ -53,6 +71,15 @@ def calculate_home_energy(request: FootprintRequest) -> float:
     return electricity_emissions + heating_emissions
 
 def calculate_food(request: FootprintRequest) -> float:
+    """
+    Calculate monthly CO2 emissions from food and diet choices.
+    
+    Args:
+        request (FootprintRequest): The user's inputted footprint data.
+        
+    Returns:
+        float: Total food emissions in kg CO2 per month.
+    """
     base_emissions = EMISSION_FACTORS["diet"].get(request.diet_type, 105.0)
     
     local_modifiers = {"rarely": 1.1, "some": 1.0, "most": 0.9, "almost_all": 0.8}
@@ -66,6 +93,15 @@ def calculate_food(request: FootprintRequest) -> float:
     return base_emissions + beef_emissions + waste_emissions
 
 def calculate_waste(request: FootprintRequest) -> float:
+    """
+    Calculate monthly CO2 emissions from household waste and recycling habits.
+    
+    Args:
+        request (FootprintRequest): The user's inputted footprint data.
+        
+    Returns:
+        float: Total waste emissions in kg CO2 per month.
+    """
     base_waste = EMISSION_FACTORS["waste_recycling"].get(request.recycling_habits, 25.0)
     bag_multiplier = request.waste_bags_per_week / 2.0
     emissions = base_waste * bag_multiplier
@@ -79,6 +115,15 @@ def calculate_waste(request: FootprintRequest) -> float:
     return emissions
 
 def calculate_footprint(request: FootprintRequest) -> CategoryBreakdown:
+    """
+    Calculate the total carbon footprint breakdown across all categories.
+    
+    Args:
+        request (FootprintRequest): The user's inputted footprint data.
+        
+    Returns:
+        CategoryBreakdown: Pydantic model containing emissions per category in kg CO2.
+    """
     transportation_kg = calculate_transportation(request)
     home_energy_kg = calculate_home_energy(request)
     food_kg = calculate_food(request)

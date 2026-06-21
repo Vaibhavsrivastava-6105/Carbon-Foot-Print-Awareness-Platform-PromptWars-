@@ -7,6 +7,19 @@ router = APIRouter()
 
 @router.post("/calculate", response_model=FootprintResponse)
 def calculate_carbon_footprint(request: FootprintRequest):
+    """
+    Calculate the user's carbon footprint based on their inputted lifestyle data.
+    
+    This endpoint calculates emissions across four main categories (Transportation, 
+    Energy, Food, Waste) and provides an overall sustainability score with personalized 
+    actionable recommendations to reduce emissions.
+    
+    Args:
+        request (FootprintRequest): The JSON payload containing user lifestyle data.
+        
+    Returns:
+        FootprintResponse: The comprehensive footprint analysis and action plan.
+    """
     # 1. Calculate breakdown
     breakdown = calculator.calculate_footprint(request)
     
@@ -38,6 +51,19 @@ def calculate_carbon_footprint(request: FootprintRequest):
 
 @router.post("/simulate", response_model=FootprintResponse)
 def simulate_action(request: SimulatorRequest):
+    """
+    Simulate the impact of a specific lifestyle change on the user's carbon footprint.
+    
+    This endpoint accepts a base footprint and an action (e.g., 'reduce_car') to 
+    dynamically recalculate the emissions, allowing the frontend to show real-time 
+    impact previews.
+    
+    Args:
+        request (SimulatorRequest): The current footprint data and the action to simulate.
+        
+    Returns:
+        FootprintResponse: The recalculated footprint analysis showing the reduced emissions.
+    """
     # Simulate how the footprint changes if the user takes an action
     simulated_request = copy.deepcopy(request.current_footprint)
     

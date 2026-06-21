@@ -2,6 +2,15 @@ from api.models.schemas import FootprintRequest, CategoryBreakdown, ActionPlan, 
 from typing import List, Tuple
 
 def calculate_score(total_monthly_kg: float) -> Tuple[int, str]:
+    """
+    Calculate a sustainability score (0-100) based on monthly emissions.
+    
+    Args:
+        total_monthly_kg (float): Total CO2 emissions in kg.
+        
+    Returns:
+        Tuple[int, str]: A tuple containing the score (0-100) and the category name (e.g., "Excellent").
+    """
     if total_monthly_kg <= 200:
         score = max(90, 100 - int((total_monthly_kg / 200) * 10))
         return score, "Excellent"
@@ -16,6 +25,15 @@ def calculate_score(total_monthly_kg: float) -> Tuple[int, str]:
         return score, "High Impact"
 
 def get_biggest_source(breakdown: CategoryBreakdown) -> str:
+    """
+    Identify the category responsible for the highest emissions.
+    
+    Args:
+        breakdown (CategoryBreakdown): The calculated breakdown of emissions per category.
+        
+    Returns:
+        str: The name of the category with the highest emissions.
+    """
     sources = {
         "Transportation": breakdown.transportation_kg,
         "Home Energy": breakdown.home_energy_kg,
@@ -25,6 +43,16 @@ def get_biggest_source(breakdown: CategoryBreakdown) -> str:
     return max(sources, key=sources.get)
 
 def generate_recommendations(request: FootprintRequest, breakdown: CategoryBreakdown) -> Tuple[List[str], ActionPlan, float]:
+    """
+    Generate personalized recommendations and an actionable plan to reduce the user's footprint.
+    
+    Args:
+        request (FootprintRequest): The user's inputted footprint data.
+        breakdown (CategoryBreakdown): The calculated breakdown of emissions.
+        
+    Returns:
+        Tuple[List[str], ActionPlan, float]: A list of text recommendations, a structured ActionPlan, and the expected reduction percentage.
+    """
     recommendations = []
     daily = []
     weekly = []

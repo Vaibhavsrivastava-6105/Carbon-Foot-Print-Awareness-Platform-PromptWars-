@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from app.models.schemas import FootprintRequest, FootprintResponse, SimulatorRequest
-from app.engine import calculator, advisor
+from api.models.schemas import FootprintRequest, FootprintResponse, SimulatorRequest
+from api.engine import calculator, advisor
 import copy
 
 router = APIRouter()

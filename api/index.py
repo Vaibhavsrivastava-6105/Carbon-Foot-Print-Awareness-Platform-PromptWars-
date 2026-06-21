@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api import routes
+from api.api import routes
 
 app = FastAPI(title="EcoGuide AI API", description="Backend for the Carbon Footprint Awareness Platform")
 

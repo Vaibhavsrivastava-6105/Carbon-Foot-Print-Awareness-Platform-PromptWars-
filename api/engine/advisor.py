@@ -1,4 +1,4 @@
-from app.models.schemas import FootprintRequest, CategoryBreakdown, ActionPlan, ActionItem
+from api.models.schemas import FootprintRequest, CategoryBreakdown, ActionPlan, ActionItem
 from typing import List, Tuple
 
 def calculate_score(total_monthly_kg: float) -> Tuple[int, str]:

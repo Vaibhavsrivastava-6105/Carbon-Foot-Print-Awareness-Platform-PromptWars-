@@ -1,4 +1,4 @@
-from app.models.schemas import FootprintRequest, CategoryBreakdown
+from api.models.schemas import FootprintRequest, CategoryBreakdown
 
 # Emission Factors
 EMISSION_FACTORS = {
